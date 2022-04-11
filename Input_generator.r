@@ -1,4 +1,4 @@
-setwd("/home/jj515/Selection/data")
+setwd("/home/jj515/Selection/data_input")
 getwd()
 
 # GENERATING INPUTS FOR SCHRAIBER'S CODE
