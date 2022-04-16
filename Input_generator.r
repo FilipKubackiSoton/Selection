@@ -1,4 +1,4 @@
-setwd("/home/jj515/Selection/data_input")
+setwd("C:/Users/ACER/Desktop/Undergraduate dissertation/v44.3_1240K_public")
 getwd()
 
 # GENERATING INPUTS FOR SCHRAIBER'S CODE
@@ -280,7 +280,8 @@ sr_input = function(i) {
 # 5. Change the directory to the desired location for input files for 
 # Schraiber's algorithm.
 
-setwd("/home/jj515/Selection/data") 
+setwd("C:/Users/ACER/Desktop/Inputs") 
+getwd()
 
 # 6. Loop the sr_input function over desired number of rows. 
 

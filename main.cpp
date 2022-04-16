@@ -67,7 +67,31 @@ int main (int argc, char * const argv[]) {
 		if (mySettings.get_linked()) {
 			
 		} else {
-				mcmc myMCMC(mySettings, r);
+				std::vector<std::string> s = {"data/1.txt", "data/2.txt", "data/3.txt"};
+
+			for(int i = 0; i <= 2; i++){
+				
+//				std::cout<<i<<" - "<< argv[i]<<std::endl;
+				
+				std::vector<std::string> arguments = {"./sr", "-D", s[i], "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", s[i]};
+
+				std::vector<char*> argvv;
+				for (const auto& arg : arguments)
+					argvv.push_back((char*)arg.data());
+				argvv.push_back(nullptr);
+
+				std::cout<<i<<" - "<< argv[2] << " - "<< argvv[2]<<std::endl;
+				
+				settings mySettings(argvv.size() - 1, argvv.data());
+				MbRandom* rr = new MbRandom(mySettings.get_seed());
+				//argv['FILENMAE'] = FILE
+				//settings mySettings(argc, argv);
+				//MbRandom* r = new MbRandom(mySettings.get_seed());
+
+
+				mcmc myMCMC(mySettings, rr);
+			}
+				
 			}
 
 		
