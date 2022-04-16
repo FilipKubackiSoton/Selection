@@ -39,6 +39,14 @@ void run_test(std::string file_name){
 	mcmc myMCMC(mySettings, r);
 }
 
+bool hasEnding (std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length()) {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
+
 int main (int argc, char * const argv[]) {
 
 	settings mySettings(argc, argv);
@@ -67,30 +75,64 @@ int main (int argc, char * const argv[]) {
 		if (mySettings.get_linked()) {
 			
 		} else {
-				std::vector<std::string> s = {"data/1.txt", "data/2.txt", "data/3.txt"};
+			std::vector<std::string> s = {"data/1.txt", "data/2.txt", "data/3.txt"};
+			struct dirent *entry = nullptr;
+			DIR *dp = nullptr;
 
-			for(int i = 0; i <= 2; i++){
-				
-//				std::cout<<i<<" - "<< argv[i]<<std::endl;
-				
-				std::vector<std::string> arguments = {"./sr", "-D", s[i], "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", s[i]};
+			dp = opendir("data/");
+			if (dp != nullptr) {
+				while ((entry = readdir(dp))){
+					std::string filename = entry->d_name;
+					if(hasEnding(filename, ".txt")){
+						printf ("%s\n", entry->d_name);
+						filename = "data/"+filename;
+						std::vector<std::string> arguments = {"./sr", "-D", filename, "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", filename};
 
-				std::vector<char*> argvv;
-				for (const auto& arg : arguments)
-					argvv.push_back((char*)arg.data());
-				argvv.push_back(nullptr);
+						std::vector<char*> argvv;
+						for (const auto& arg : arguments)
+							argvv.push_back((char*)arg.data());
+						argvv.push_back(nullptr);
 
-				std::cout<<i<<" - "<< argv[2] << " - "<< argvv[2]<<std::endl;
-				
-				settings mySettings(argvv.size() - 1, argvv.data());
-				MbRandom* rr = new MbRandom(mySettings.get_seed());
-				//argv['FILENMAE'] = FILE
-				//settings mySettings(argc, argv);
-				//MbRandom* r = new MbRandom(mySettings.get_seed());
+						std::cout<< argvv[2]<<std::endl;
+						
+						settings mySettings(argvv.size() - 1, argvv.data());
+						MbRandom* rr = new MbRandom(mySettings.get_seed());
+						//argv['FILENMAE'] = FILE
+						//settings mySettings(argc, argv);
+						//MbRandom* r = new MbRandom(mySettings.get_seed());
 
 
-				mcmc myMCMC(mySettings, rr);
+						mcmc myMCMC(mySettings, rr);
+					}
+						
+				}
+					
 			}
+
+			closedir(dp);
+// 			//return 0;
+// 			for(int i = 0; i <= 2; i++){
+				
+// //				std::cout<<i<<" - "<< argv[i]<<std::endl;
+				
+// 				std::vector<std::string> arguments = {"./sr", "-D", s[i], "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", s[i]};
+
+// 				std::vector<char*> argvv;
+// 				for (const auto& arg : arguments)
+// 					argvv.push_back((char*)arg.data());
+// 				argvv.push_back(nullptr);
+
+// 				std::cout<<i<<" - "<< argv[2] << " - "<< argvv[2]<<std::endl;
+				
+// 				settings mySettings(argvv.size() - 1, argvv.data());
+// 				MbRandom* rr = new MbRandom(mySettings.get_seed());
+// 				//argv['FILENMAE'] = FILE
+// 				//settings mySettings(argc, argv);
+// 				//MbRandom* r = new MbRandom(mySettings.get_seed());
+
+
+// 				mcmc myMCMC(mySettings, rr);
+// 			}
 				
 			}
 
