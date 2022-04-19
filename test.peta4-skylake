@@ -57,10 +57,10 @@ module load rhel7/default-peta4            # REQUIRED - loads the basic environm
 #! Insert additional module load commands after this line if needed:
 module load gcc
 #! Full path to application executable: 
-application="/home/jj515/a.out"
+application="/home/jj515/sr"
 
 #! Run options for the application:
-options=""
+options="-D tmp -G 25 -N 10000 -n 500000 -d 0.001 -F 20 -f 1000 -s 100 -P constant.pop -e 8067 -a -o tmp"
 
 #! Work directory (i.e. where the job will run):
 workdir="$SLURM_SUBMIT_DIR"  # The value of SLURM_SUBMIT_DIR sets workdir to the directory
