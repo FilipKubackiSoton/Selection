@@ -19,7 +19,8 @@
 #include <sstream>
 #include <filesystem>
 
-
+#include<algorithm>
+#include<tbb>
 
 // void run_selection(std::vector<std::string> arguments){
 // 	//std::vector<std::string> arguments = {"./sr", "-D", file_name, "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", file_name};
@@ -133,9 +134,23 @@ int main (int argc, char * const argv[]) {
 			}
 			else
 				std::cout<<"Could not open the file\n";
+			std::vector<int> indexes;
+			for(int i = 1; i<content.size(); i++)
+			{
+				indexes.push_back(i);
+			}
 
+			std::for_each(
+				std::execution::par,
+				indexes.begin(),
+				indexes.end(),
+				[](auto&& item)
+				{
+					std::cout<<item<< std::endl;
+				});
 
 			for(int i=1;i<content.size();i++)
+			//parallel_for (size_t(1), content.size(), [&](size_t i)
 				{
 					// write to file 
 
@@ -159,8 +174,8 @@ int main (int argc, char * const argv[]) {
 					std::vector<std::string> arguments = {"./sr", "-D", filename, "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", content[i][1]};
 
 					std::vector<char*> argvv;
-					for (const auto& arg : arguments)
-						argvv.push_back((char*)arg.data());
+					for (const auto& argg : arguments)
+						argvv.push_back((char*)argg.data());
 					argvv.push_back(nullptr);
 
 					std::cout<< argvv[2]<<std::endl;
@@ -179,7 +194,7 @@ int main (int argc, char * const argv[]) {
 					else
 						std::puts( "File successfully deleted" );
 					
-				}
+				};
 		  	// std::string line, word;
 			
 			// std::ifstream infile("input_1000.csv");
