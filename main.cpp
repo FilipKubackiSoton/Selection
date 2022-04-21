@@ -20,7 +20,7 @@
 #include <filesystem>
 
 #include<algorithm>
-#include<tbb>
+#include <mpi.h>
 
 // void run_selection(std::vector<std::string> arguments){
 // 	//std::vector<std::string> arguments = {"./sr", "-D", file_name, "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", file_name};
@@ -83,7 +83,14 @@ bool hasEnding (std::string const &fullString, std::string const &ending) {
 
 int main (int argc, char * const argv[]) {
 
-	settings mySettings(argc, argv);
+	std::vector<std::string> arguments_i;
+	std::vector<char*> cstrings_i ;
+	arguments_i = {"./sr", "-D", "tmp", "-G", "25", "-N", "10000", "-n", "500000", "-d", "0.001", "-F", "20", "-f", "1000", "-s", "100", "-P", "constant.pop", "-e", "8067", "-a", "-o", "tmp"};
+	for(auto& str : arguments_i){
+		cstrings_i.push_back(const_cast<char*> (str.c_str()));
+	}
+
+	settings mySettings((int)cstrings_i.size(), cstrings_i.data());
 	MbRandom* r = new MbRandom(mySettings.get_seed());
 
 	if (mySettings.get_p()) {
