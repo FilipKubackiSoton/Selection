@@ -11,6 +11,8 @@
 
 #include <fstream>
 #include <vector>
+#include <string>
+
 
 class wfSamplePath;
 class measure;
@@ -24,6 +26,7 @@ class mcmc {
 
 public:
 	mcmc(settings& mySettings, MbRandom* r);
+	std::string no_linked_sites(settings& mySettings);
 	
 private:
 	//variables to store
@@ -38,7 +41,6 @@ private:
 	int printFreq;
 	int sampleFreq;
 	int minUpdate;
-	void no_linked_sites(settings& mySettings);
 	void linked_sites(settings& mySettings);
 	
 	// for debuging

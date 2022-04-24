@@ -17,6 +17,7 @@
 
 #include<iomanip>
 #include<fstream>
+#include <string>
 
 mcmc::mcmc(settings& mySettings, MbRandom* r) {
 	random = r;
@@ -24,12 +25,13 @@ mcmc::mcmc(settings& mySettings, MbRandom* r) {
 	sampleFreq = mySettings.get_sampleFreq();
 	num_gen = mySettings.get_num_gen();
 	minUpdate = mySettings.get_grid();
-	if (!mySettings.get_linked()) {
-		no_linked_sites(mySettings);
-	} else {
+	// if (!mySettings.get_linked()) {
+	// 	no_linked_sites(mySettings);
+	// } else {
 		
-	}
+	// }
 }
+
 
 void mcmc::no_linked_sites2(settings& mySettings) {
     paramFile.open("results.csv", std::fstream::app);
@@ -38,7 +40,7 @@ void mcmc::no_linked_sites2(settings& mySettings) {
 
 }
 
-void mcmc::no_linked_sites(settings& mySettings) {
+std::string mcmc::no_linked_sites(settings& mySettings) {
 
 	//open files
 	// std::string paramName = mySettings.get_baseName() + ".csv";
@@ -315,6 +317,7 @@ void mcmc::no_linked_sites(settings& mySettings) {
     paramFile.open("results.csv", std::fstream::app);
     paramFile << mySettings.get_baseName() << "," <<mean_alpha_1 << "," << stdev_alpha_1 << "," << mean_alpha_2 << "," << stdev_alpha_2 << std::endl;
     paramFile.close();
+    return mySettings.get_baseName() + "," + std::to_string(mean_alpha_1) + "," + std::to_string(stdev_alpha_1) + "," + std::to_string(mean_alpha_2) + "," + std::to_string(stdev_alpha_2);
 
 
     //paramFile << mean_alpha_1 << "," << stdev_alpha_1 << "," << mean_alpha_2 << "," << stdev_alpha_2 << std::endl;
