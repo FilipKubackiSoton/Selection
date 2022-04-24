@@ -6,7 +6,7 @@
  *  Copyright 2013 UC Berkeley. All rights reserved.
  *
  */
-
+#include <iostream>
 #include "mcmc.h"
 #include "MbRandom.h"
 #include "settings.h"
